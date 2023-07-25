@@ -5,7 +5,16 @@
 #include <chrono>
 #include <fstream>
 #include <iomanip>
+#include <cstdlib>
+#include "hardware.h"
 
+#if defined __WIN32__
+    #include <windows.h>
+#elif defined __unix__ || defined __APPLE__
+    #include <unistd.h>
+#endif
+#include <sys/stat.h>
+#include <sys/types.h>
 /*
 Notes
 Add run time display
@@ -13,7 +22,9 @@ Multiples of the same letter
 Performance stats
 Question, if i allow words with multiables of same letter to be counted, what about words larger than six letters but only contain the selected letters?
 */
-void printstuff(std::vector<char> selected, std::vector<std::string> words, double time);
+void printLetters(std::vector<char> selected, std::vector<std::string> words);
+void printHardware();
+void printTime(double time);
 
 int main(void) {
     std::vector<char> letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -63,7 +74,9 @@ int main(void) {
     end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
     
-    printstuff(selected, words, elapsed_seconds.count());
+    printHardware();
+    printTime(elapsed_seconds.count());
+    printLetters(selected, words);
 
    return 0;
 }
@@ -73,10 +86,7 @@ printing to static file containing, system CPU information, memory, letters, sel
 
 */
 
-
-void printstuff(std::vector<char> selected, std::vector<std::string> words, double time) {
-    std::cout << std::setprecision(7) << std::fixed;
-    std::cout << "Time Elapsed: " << time << " seconds" << std::endl;
+void printLetters(std::vector<char> selected, std::vector<std::string> words) {
 
     if (words.size() == 0) std::cout << "No words found" << std::endl;    //if no words, print nothing
     else{
@@ -85,10 +95,26 @@ void printstuff(std::vector<char> selected, std::vector<std::string> words, doub
             std::cout << selected[i] << " ";
         }
         std::cout << "\nWords Found: " << words.size() << std::endl;      //print the number of words found then the words ** Might add printing to a file, or adding to keep a scoreboard
-        for(int i = 0; i < words.size(); i++){
-        std::cout << words[i] << std::endl;
-        }
+        // for(int i = 0; i < words.size(); i++){
+        // std::cout << words[i] << std::endl;
+        // }
     }
+}
+
+void printHardware() {
+    #ifdef __WIN32__
+    std::string cpu = winCPUstuff();
+    std::cout << "CPU: " << cpu << std::endl;
+    std::cout << "Windows Version: " << std::endl;
+    #elif __unix__ || __apple__
+    #elif 
+    #elif _AMIGA
+    #endif
+}
+
+void printTime(double time) {
+    std::cout << std::setprecision(7) << std::fixed;
+    std::cout << "Time Elapsed: " << time << " seconds" << std::endl;
 }
 
 
