@@ -56,7 +56,7 @@ int main(void) {
 
     std::string line;
     short match = 0;
-    while(getline (file, line)){
+    while(getline (file, line)){//this is O(n^2) complexity, change to hash table later?
         match = 0;
         for(int i = 0; i <= line.length(); i++){//word
           //  if(line.length() > selected.size()) break; //if the word is longer than the total amount of letters avaliable, break the loop. 
@@ -104,11 +104,20 @@ void printLetters(std::vector<char> selected, std::vector<std::string> words) {
 void printHardware() {
     #ifdef __WIN32__
     std::string cpu = winCPUstuff();
+    std::string OS = winOS();
+    std::string RAM = winRAM();
+
     std::cout << "CPU: " << cpu << std::endl;
-    std::cout << "Windows Version: " << std::endl;
-    #elif __unix__ || __apple__
-    #elif 
+    std::cout << "Windows: " << OS << std::endl;
+    std::cout << "RAM: " << RAM << std::endl;
+    
+    #elif __unix__ 
+    #elif __apple__
     #elif _AMIGA
+    std::cout << "Amiga" << std::endl;
+    std::cout << "Ha your old, get a modern OS nerd" << std::endl;
+    #else
+        std::cout << "Unknown OS" << std::endl;
     #endif
 }
 
