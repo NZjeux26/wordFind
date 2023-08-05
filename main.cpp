@@ -28,7 +28,8 @@ void printTime(double time);
 
 int main(void) {
     std::vector<char> letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
-    std::vector<char> selected = { 'a', 'e', 'd', 'o', 'g', 'y'};
+    //std::vector<char> selected = { 'a', 'e', 'd', 'o', 'g', 'y'};
+    std::vector<char> selected;
     std::vector<std::string> words;
     std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
 
@@ -37,12 +38,11 @@ int main(void) {
 
     //for loop to select 6 random letters
     //what if two random letters are selected that are the same? - That is fine
-    //what about words with two or more of the same letter? - No one letter once
-    // for (int i = 0; i < 6; i++)
-    // {   
-    //     selected.push_back(letters[rand() % letters.size()]); //explain this?
-    //     cout << selected[i] << " ";
-    // }
+    for (int i = 0; i < 6; i++)
+    {   
+        selected.push_back(letters[rand() % letters.size()]);
+       // std::cout << selected[i] << " ";
+    }
     
     std::fstream file("words_alpha.txt");
 
@@ -88,20 +88,20 @@ printing to static file containing, system CPU information, memory, letters, sel
 
 void printLetters(std::vector<char> selected, std::vector<std::string> words) {
 
-    if (words.size() == 0) std::cout << "No words found" << std::endl;    //if no words, print nothing
+    if (words.size() == 0) std::cout << "No words found" << "\n";    //if no words, print nothing
     else{
         std::cout << "Letters: ";                                    //print the letters selected
         for (int i = 0; i < selected.size(); i++){
             std::cout << selected[i] << " ";
         }
-        std::cout << "\nWords Found: " << words.size() << std::endl;      //print the number of words found then the words ** Might add printing to a file, or adding to keep a scoreboard
+        std::cout << "\nWords Found: " << words.size() << "\n";      //print the number of words found then the words ** Might add printing to a file, or adding to keep a scoreboard
         // for(int i = 0; i < words.size(); i++){
         // std::cout << words[i] << std::endl;
         // }
     }
 }
 
-void printHardware() {
+void printHardware() {  //printing hw information, getting diminishing returns of fun from this so stopping with windows...
     #ifdef __WIN32__
     std::string cpu = winCPUstuff();
     std::string OS = winOS();
@@ -109,7 +109,7 @@ void printHardware() {
 
     std::cout << "CPU: " << cpu << std::endl;
     std::cout << "Windows: " << OS << std::endl;
-    std::cout << "RAM: " << RAM << std::endl;
+    std::cout << "RAM: " << RAM << "GB" <<std::endl;
     
     #elif __unix__ 
     #elif __apple__

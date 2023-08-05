@@ -57,7 +57,7 @@ std::string winOS(){    //to turn these into a combined function since these are
 
 std::string winRAM(){
    std::string RAM;
-   std::string cmd = "wmic memorychip get capacity";
+   std::string cmd = "wmic computersystem get totalphysicalmemory";
 
    FILE* pipe = popen(cmd.c_str(), "r");
    if (!pipe) {
@@ -74,5 +74,8 @@ std::string winRAM(){
    for (int i = 0; i < RAM.length(); i++){
       if(std::isdigit(RAM[i])) cleanRAM += RAM[i];
    }
-   return cleanRAM;
+   long long int preram = std::stoll(cleanRAM);
+   long long int postram = preram / 1073741824;
+   std::string RAMv = std::to_string(postram);
+   return RAMv;
 }
